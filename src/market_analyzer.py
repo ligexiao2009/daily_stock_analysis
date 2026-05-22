@@ -11,6 +11,7 @@
 """
 
 import logging
+import os
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -367,6 +368,9 @@ Focus on index trend, liquidity, and sector rotation to shape the next-session t
         Returns:
             新闻列表
         """
+        if os.getenv('SEARCH_ENABLED', 'true').lower() == 'false':
+            logger.info("[大盘] SEARCH_ENABLED=false，跳过新闻搜索")
+            return []
         if not self.search_service:
             logger.warning("[大盘] 搜索服务未配置，跳过新闻搜索")
             return []
